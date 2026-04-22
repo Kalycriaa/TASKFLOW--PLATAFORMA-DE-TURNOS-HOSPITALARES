@@ -150,7 +150,6 @@ Hoje o projeto ja tenta ler:
 - `distance_km`
 - ou `data.distance_km`
 
-Se a sua API responder diferente, basta adaptar esse unico arquivo.
 
 ## Endpoints principais
 
