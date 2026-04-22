@@ -6,7 +6,7 @@
 .
 |-- app.py
 |-- config.py
-|-- .env.example
+|-- .env
 |-- requirements.txt
 |-- README.md
 `-- plataforma_turnos
