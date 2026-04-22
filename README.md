@@ -262,12 +262,3 @@ pip install -r requirements.txt
 flask --app app run
 ```
 
-## Proximo passo recomendado
-
-O backend agora esta pronto para:
-
-- conectar sua API regional de geolocalizacao
-- receber uma interface web ou mobile
-- evoluir para autenticacao depois
-
-Se quiser, o proximo passo natural e eu montar o frontend inicial em HTML/CSS/JS ou React consumindo esses endpoints.
