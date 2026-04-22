@@ -80,7 +80,6 @@
 - categoria
 - preferencia de turno
 - avaliacao media
-- taxa de aceitacao
 
 ### UnidadeHospitalar
 
