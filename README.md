@@ -1,6 +1,10 @@
 # TASKFLOW - Plataforma de Turnos Hospitalares
 
-## Estrutura de pastas no VS Code
+Sistema backend desenvolvido para conectar profissionais da saúde a unidades hospitalares com base em proximidade, disponibilidade e reputação profissional.
+
+---
+
+# Estrutura de Pastas
 
 ```text
 .
@@ -35,99 +39,107 @@
         `-- workflow.py
 ```
 
-## O que cada pasta faz
+---
 
-- `models`: tabelas do banco
-- `routes`: endpoints da API
-- `services`: regras de negocio
-- `utils.py`: funcoes pequenas de apoio
-- `config.py`: configuracoes e variaveis de ambiente
-- `app.py`: ponto de entrada para rodar o Flask
+# Responsabilidade de Cada Pasta
 
-## O que foi incluido
+* `models/` → tabelas e entidades do banco de dados
+* `routes/` → endpoints da API REST
+* `services/` → regras de negócio 
+* `utils.py` → funções auxiliares
+* `config.py` → configurações e variáveis de ambiente
+* `app.py` → ponto principal da aplicação Flask
 
-- cadastro de profissionais
-- cadastro de unidades hospitalares
-- criacao de turnos
-- recomendacao de profissionais para um turno
-- recomendacao de turnos para um profissional
-- candidaturas para turnos
-- aceite, recusa e cancelamento de candidatura
-- conclusao de turno
-- avaliacao da unidade para o profissional
-- avaliacao do profissional para a unidade
-- atualizacao automatica da nota media de profissionais e unidades
+---
 
-## Fluxo principal do produto
+# Funcionalidades Implementadas
 
-1. a unidade se cadastra
-2. a unidade cria um turno
-3. o profissional se cadastra
-4. o profissional consulta oportunidades
-5. o profissional se candidata
-6. a unidade aceita uma candidatura
-7. o turno fica com status `preenchido`
-8. ao terminar, a unidade conclui o turno
-9. unidade e profissional avaliam um ao outro
+* Cadastro de profissionais da saúde
+* Cadastro de unidades hospitalares
+* Criação de turnos
+* Recomendação de profissionais para turnos
+* Recomendação de turnos para profissionais
+* Sistema de candidaturas
+* Aceite, recusa e cancelamento de candidatura
+* Conclusão de turnos
+* Sistema de avaliações
+* Atualização automática de reputação média
 
-## Modelos principais
+---
 
-### Profissional
+# Fluxo Principal da Plataforma
 
-- dados pessoais basicos
-- endereco completo
-- coordenadas
-- categoria
-- preferencia de turno
-- avaliacao media
+1. A unidade hospitalar realiza o cadastro
+2. A unidade cria um turno
+3. O profissional realiza o cadastro
+4. O profissional consulta oportunidades
+5. O profissional se candidata ao turno
+6. A unidade aceita uma candidatura
+7. O turno recebe status `preenchido`
+8. Após conclusão do turno, ambas as partes podem se avaliar
 
-### UnidadeHospitalar
+---
 
-- nome
-- endereco completo
-- coordenadas
-- avaliacao media
+# Modelos Principais
 
-### Turno
+## Profissional
 
-- unidade
-- categoria exigida
-- tipo do turno
-- valor
-- observacoes
-- status
-- datas opcionais
-- profissional confirmado
+* Dados pessoais básicos
+* Endereço completo
+* Coordenadas
+* Categoria profissional
+* Preferência de turno
+* Avaliação média
 
-### Candidatura
+## UnidadeHospitalar
 
-- profissional
-- turno
-- status
-- pontuacao no momento da candidatura
-- distancia em km
+* Nome
+* Endereço completo
+* Coordenadas
+* Avaliação média
 
-### Avaliacao
+## Turno
 
-- turno
-- autor da avaliacao
-- nota
-- comentario
+* Unidade responsável
+* Categoria exigida
+* Tipo de turno
+* Valor
+* Observações
+* Status
+* Datas opcionais
+* Profissional confirmado
 
-## Onde conectar a API regional
+## Candidatura
 
-O arquivo que voce deve editar para integrar sua API regional e:
+* Profissional
+* Turno
+* Status
+* Pontuação da candidatura
+* Distância em KM
 
-- [plataforma_turnos/services/location_provider.py]
+## Avaliação
 
-Esse arquivo ja esta preparado com dois pontos:
+* Turno relacionado
+* Autor da avaliação
+* Nota
+* Comentário
 
-- `resolve_coordinates`: transforma endereco em latitude/longitude
-- `calculate_distance_km`: calcula a distancia entre profissional e unidade
+---
 
-### Como ativar
+# Integração com API Regional
 
-No `.env`, troque:
+Arquivo responsável:
+
+```text
+plataforma_turnos/services/location_provider.py
+```
+
+Funções preparadas:
+
+* `resolve_coordinates`
+* `calculate_distance_km`
+
+## Configuração no `.env`
 
 ```env
 LOCATION_PROVIDER=regional
@@ -136,61 +148,74 @@ REGIONAL_DISTANCE_API_URL=https://sua-api/distance
 REGIONAL_API_KEY=sua-chave
 ```
 
-### O que voce provavelmente vai ajustar
+## Ajustes Prováveis
 
-- nomes dos parametros enviados
-- header de autenticacao
-- formato do JSON de resposta
+* parâmetros enviados para API
+* autenticação/header
+* formato do JSON retornado
 
-Hoje o projeto ja tenta ler:
+O sistema atualmente já tenta interpretar:
 
-- `latitude` e `longitude`
-- ou `data.latitude` e `data.longitude`
-- `distance_km`
-- ou `data.distance_km`
+* `latitude` e `longitude`
+* `data.latitude` e `data.longitude`
+* `distance_km`
+* `data.distance_km`
 
+---
 
-## Endpoints principais
+# Endpoints Principais
 
-### Profissionais
+## Profissionais
 
-- `POST /profissionais`
-- `GET /profissionais`
-- `GET /profissionais/<id>`
-- `GET /profissionais/<id>/oportunidades`
-- `GET /profissionais/<id>/candidaturas`
+```http
+POST /profissionais
+GET /profissionais
+GET /profissionais/<id>
+GET /profissionais/<id>/oportunidades
+GET /profissionais/<id>/candidaturas
+```
 
-### Unidades
+## Unidades
 
-- `POST /unidades`
-- `GET /unidades`
-- `GET /unidades/<id>`
-- `GET /unidades/<id>/turnos`
+```http
+POST /unidades
+GET /unidades
+GET /unidades/<id>
+GET /unidades/<id>/turnos
+```
 
-### Turnos
+## Turnos
 
-- `POST /turnos`
-- `GET /turnos`
-- `GET /turnos/<id>`
-- `GET /turnos/<id>/matches`
-- `POST /turnos/<id>/concluir`
+```http
+POST /turnos
+GET /turnos
+GET /turnos/<id>
+GET /turnos/<id>/matches
+POST /turnos/<id>/concluir
+```
 
-### Candidaturas
+## Candidaturas
 
-- `POST /turnos/<id>/candidaturas`
-- `GET /turnos/<id>/candidaturas`
-- `POST /candidaturas/<id>/aceitar`
-- `POST /candidaturas/<id>/recusar`
-- `POST /candidaturas/<id>/cancelar`
+```http
+POST /turnos/<id>/candidaturas
+GET /turnos/<id>/candidaturas
+POST /candidaturas/<id>/aceitar
+POST /candidaturas/<id>/recusar
+POST /candidaturas/<id>/cancelar
+```
 
-### Avaliacoes
+## Avaliações
 
-- `POST /turnos/<id>/avaliacoes`
-- `GET /turnos/<id>/avaliacoes`
+```http
+POST /turnos/<id>/avaliacoes
+GET /turnos/<id>/avaliacoes
+```
 
-## Exemplos de payload
+---
 
-### Criar profissional
+# Exemplos de Payload
+
+## Criar Profissional
 
 ```json
 {
@@ -207,7 +232,7 @@ Hoje o projeto ja tenta ler:
 }
 ```
 
-### Criar unidade
+## Criar Unidade
 
 ```json
 {
@@ -221,7 +246,7 @@ Hoje o projeto ja tenta ler:
 }
 ```
 
-### Criar turno
+## Criar Turno
 
 ```json
 {
@@ -235,7 +260,7 @@ Hoje o projeto ja tenta ler:
 }
 ```
 
-### Candidatar profissional
+## Candidatar Profissional
 
 ```json
 {
@@ -243,7 +268,7 @@ Hoje o projeto ja tenta ler:
 }
 ```
 
-### Registrar avaliacao
+## Registrar Avaliação
 
 ```json
 {
@@ -253,10 +278,38 @@ Hoje o projeto ja tenta ler:
 }
 ```
 
-## Como rodar
+---
+
+# Como Executar
+
+## Instalar dependências
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Rodar aplicação Flask
+
+```bash
 flask --app app run
 ```
 
+---
+
+# Melhorias Futuras
+
+* Autenticação JWT
+* Dockerização da aplicação
+* Testes automatizados
+* Deploy em nuvem
+* Swagger/OpenAPI
+* Sistema de permissões
+
+---
+
+# Autor
+
+Kaio Silva Nascimento
+
+* GitHub: https://github.com/Kalycriaa
+* LinkedIn: https://www.linkedin.com/in/kaio-silva-nascimento-74b0bb399/
