@@ -1,4 +1,4 @@
-**# TASKFLOW - Plataforma de Turnos Hospitalares
+# TASKFLOW - Plataforma de Turnos Hospitalares
 
 Sistema backend desenvolvido para conectar profissionais da saúde a unidades hospitalares com base em proximidade, disponibilidade e reputação profissional.
 
@@ -313,4 +313,3 @@ Kaio Silva Nascimento
 
 * GitHub: https://github.com/Kalycriaa
 * LinkedIn: https://www.linkedin.com/in/kaio-silva-nascimento-74b0bb399/
-**
